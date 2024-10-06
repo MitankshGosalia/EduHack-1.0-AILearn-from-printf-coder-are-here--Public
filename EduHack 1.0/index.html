@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EdTech - AI-Learn: Revolutionizing Education</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Header with Login/Register buttons -->
+    <header>
+        <div class="header-left">
+            <button onclick="openModal('loginModal')">Login</button>
+            <button onclick="openModal('registerModal')">Register</button>
+        </div>
+        <div class="header-right">
+            <!-- Placeholder for Image -->
+            <div class="image-placeholder">
+                <p>Your image will go here</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main content -->
+    <main>
+        <h1>Welcome to EdTech - AI-Learn</h1>
+        <p>Personalized Feedback & Real-Time Assessments</p>
+    </main>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('loginModal')">&times;</span>
+            <h2>Login</h2>
+            <form>
+                <label for="loginUsername">Username:</label>
+                <input type="text" id="loginUsername" name="loginUsername">
+                <label for="loginPassword">Password:</label>
+                <input type="password" id="loginPassword" name="loginPassword">
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('registerModal')">&times;</span>
+            <h2>Register</h2>
+            <form>
+                <label for="registerUsername">Username:</label>
+                <input type="text" id="registerUsername" name="registerUsername">
+                <label for="registerPassword">Password:</label>
+                <input type="password" id="registerPassword" name="registerPassword">
+                <button type="submit">Register</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
