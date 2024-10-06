@@ -1,0 +1,52 @@
+<form id="setTestForm">
+    <div id="questions"></div>
+    <button type="button" onclick="addQuestion()">Add Question</button>
+    <button type="submit">Save Test</button>
+</form>
+
+<script>
+let questions = [];
+
+function addQuestion() {
+    const questionCount = questions.length + 1;
+    const questionDiv = document.createElement('div');
+    questionDiv.innerHTML = ` 
+        <h3>Question ${questionCount}</h3>
+        <label>Question: <input type="text" name="question${questionCount}"></label><br>
+        <label>Option 1: <input type="text" name="q${questionCount}o1"></label><br>
+        <label>Option 2: <input type="text" name="q${questionCount}o2"></label><br>
+        <label>Option 3: <input type="text" name="q${questionCount}o3"></label><br>
+        <label>Option 4: <input type="text" name="q${questionCount}o4"></label><br>
+        <label>Correct Answer (1-4): <input type="number" name="correct${questionCount}" min="1" max="4"></label>
+    `;
+    document.getElementById('questions').appendChild(questionDiv);
+    questions.push(questionDiv);
+}
+
+document.getElementById('setTestForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const test = [];
+    for (let i = 1; i <= questions.length; i++) {
+        test.push({
+            question: formData.get(`question${i}`),
+            options: [
+                formData.get(`q${i}o1`),
+                formData.get(`q${i}o2`),
+                formData.get(`q${i}o3`),
+                formData.get(`q${i}o4`),
+            ],
+            correct: formData.get(`correct${i}`)
+        });
+    }
+
+    fetch('/save-test', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `questions=${encodeURIComponent(JSON.stringify(test))}`
+    }).then(response => response.text())
+      .then(data => alert(data));
+});
+</script>

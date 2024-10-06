@@ -1,0 +1,45 @@
+<form id="studentTestForm">
+    <input type="text" name="name" placeholder="Enter your name" required><br>
+</form>
+
+<button type="button" onclick="submitTest()">Submit Test</button>
+
+<script>
+window.onload = function () {
+    fetch('/get-questions')
+        .then(response => response.json())
+        .then(questions => {
+            const form = document.getElementById('studentTestForm');
+            questions.forEach((q, index) => {
+                const questionHtml = `
+                    <h3>${q.question}</h3>
+                    <input type="radio" name="q${index}" value="1"> ${q.option1}<br>
+                    <input type="radio" name="q${index}" value="2"> ${q.option2}<br>
+                    <input type="radio" name="q${index}" value="3"> ${q.option3}<br>
+                    <input type="radio" name="q${index}" value="4"> ${q.option4}<br>
+                `;
+                form.innerHTML += questionHtml;
+            });
+        });
+};
+
+function submitTest() {
+    const formData = new FormData(document.getElementById('studentTestForm'));
+    const name = formData.get('name');
+    const answers = [];
+    
+    for (let i = 0; i < formData.entries().length - 1; i++) {
+        answers.push(formData.get(`q${i}`));
+    }
+
+    fetch('/submit-test', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `name=${encodeURIComponent(name)}&answers=${encodeURIComponent(JSON.stringify(answers))}`
+    })
+    .then(response => response.json())
+    .then(data => alert(`Your score is: ${data.score}`));
+}
+</script>
